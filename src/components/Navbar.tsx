@@ -9,23 +9,36 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDark, setIsDark] = useState(false);
 
-  // 시스템 테마 확인 및 동기화
+  // 1. 초기 테마 설정 및 시스템 설정 감지
   useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    
-    // 비동기적으로 초기 상태 설정 ( cascades 방지 )
-    const timer = setTimeout(() => {
-      setIsDark(darkModeMediaQuery.matches);
-    }, 0);
+    // 로컬 스토리지 확인
+    const savedTheme = localStorage.getItem("theme");
+    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    const handleChange = (e: MediaQueryListEvent) => setIsDark(e.matches);
-    darkModeMediaQuery.addEventListener("change", handleChange);
-    
-    return () => {
-      clearTimeout(timer);
-      darkModeMediaQuery.removeEventListener("change", handleChange);
-    };
+    if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
+      setIsDark(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      setIsDark(false);
+      document.documentElement.classList.remove("dark");
+    }
   }, []);
+
+  // 2. 테마 토글 함수
+  const toggleTheme = () => {
+    const newTheme = !isDark;
+    setIsDark(newTheme);
+
+    if (newTheme) {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+      localStorage.setItem("theme", "light");
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-muted bg-background/80 backdrop-blur-md">
@@ -52,16 +65,29 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
+          {/* Theme Switcher */}
           <button
-            onClick={() => setIsDark(!isDark)}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xl transition-transform active:scale-90"
+            onClick={toggleTheme}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xl transition-transform active:scale-90 hover:brightness-110"
+            aria-label="Toggle Theme"
           >
-            {isDark ? "🌙" : "☀️"}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={isDark ? "dark" : "light"}
+                initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+                animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {isDark ? "🌙" : "☀️"}
+              </motion.span>
+            </AnimatePresence>
           </button>
           
+          {/* Login Button */}
           <button
             onClick={() => setIsLoggedIn(!isLoggedIn)}
-            className="group relative h-10 min-w-[100px] overflow-hidden rounded-full bg-primary px-6 text-sm font-semibold text-white transition-all active:scale-95"
+            className="group relative h-10 min-w-[100px] overflow-hidden rounded-full bg-primary px-6 text-sm font-semibold text-white transition-all active:scale-95 hover:brightness-110"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
