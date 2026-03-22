@@ -67,14 +67,13 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
-          {/* Theme Switcher */}
+          {/* Theme Switcher - 항상 공간 확보 */}
           <button
             onClick={toggleTheme}
             className="relative flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xl transition-all active:scale-90 hover:brightness-110"
             aria-label="Toggle Theme"
           >
-            {/* mounted 전에는 투명하게 처리하여 깜빡임 방지 */}
-            <div className={mounted ? "opacity-100" : "opacity-0"}>
+            <div className={`transition-opacity duration-300 ${mounted ? "opacity-100" : "opacity-0"}`}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                   key={isDark ? "dark" : "light"}
@@ -90,15 +89,12 @@ export default function Navbar() {
             </div>
           </button>
           
-          {/* Login Button */}
+          {/* Login Button - 항상 공간 확보 */}
           <button
             onClick={() => setIsLoggedIn(!isLoggedIn)}
             className="group relative h-10 min-w-[100px] overflow-hidden rounded-full bg-primary px-6 text-sm font-semibold text-white transition-all active:scale-95 hover:brightness-110"
           >
-            {/* mounted 전에는 '로그인' 텍스트만 보여줌 */}
-            {!mounted ? (
-              <span>로그인</span>
-            ) : (
+            <div className={`flex items-center justify-center transition-opacity duration-300 ${mounted ? "opacity-100" : "opacity-0"}`}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                   key={isLoggedIn ? "mypage" : "login"}
@@ -111,7 +107,9 @@ export default function Navbar() {
                   {isLoggedIn ? "마이페이지" : "로그인"}
                 </motion.span>
               </AnimatePresence>
-            )}
+            </div>
+            {/* 마운트 전 로딩 상태를 위한 텍스트 레이어 (레이아웃 틀어짐 방지) */}
+            {!mounted && <span className="absolute inset-0 flex items-center justify-center">로그인</span>}
           </button>
         </div>
       </div>
