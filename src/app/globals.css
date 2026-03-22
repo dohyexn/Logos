@@ -8,13 +8,10 @@
   --color-primary: var(--primary);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 :root {
-  /* Light Mode (The Library) */
+  /* 라이트 모드 기본 */
   --background: #F9FAFB;
   --foreground: #111827;
   --card: #FFFFFF;
@@ -25,23 +22,17 @@
 }
 
 .dark {
-  /* Dark Mode (The Agora) */
-  --background: #121212;
+  /* 다크 모드 시 배경만 블랙으로 */
+  --background: #000000;
   --foreground: #F3F4F6;
-  --card: #1E1E1E;
+  --card: #121212;
   --card-foreground: #F3F4F6;
-  --primary: #00ADB5;
-  --muted: #2D2D2D;
+  --muted: #1E1E1E;
   --muted-foreground: #9CA3AF;
-}
-
-* {
-  border-color: var(--muted);
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans);
-  transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-color 0.2s ease-in-out;
 }
