@@ -14,7 +14,7 @@
 }
 
 :root {
-  /* The Library (White Mode) */
+  /* Light Mode (The Library) */
   --background: #F9FAFB;
   --foreground: #111827;
   --card: #FFFFFF;
@@ -22,13 +22,10 @@
   --primary: #00ADB5;
   --muted: #F3F4F6;
   --muted-foreground: #6B7280;
-  
-  color-scheme: light;
 }
 
-/* 다크모드 강제 클래스 */
-:root.dark {
-  /* The Agora (Dark Mode) */
+.dark {
+  /* Dark Mode (The Agora) */
   --background: #121212;
   --foreground: #F3F4F6;
   --card: #1E1E1E;
@@ -36,23 +33,6 @@
   --primary: #00ADB5;
   --muted: #2D2D2D;
   --muted-foreground: #9CA3AF;
-  
-  color-scheme: dark;
-}
-
-/* 시스템 설정 (클래스가 없을 때만 적용) */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --background: #121212;
-    --foreground: #F3F4F6;
-    --card: #1E1E1E;
-    --card-foreground: #F3F4F6;
-    --primary: #00ADB5;
-    --muted: #2D2D2D;
-    --muted-foreground: #9CA3AF;
-    
-    color-scheme: dark;
-  }
 }
 
 * {
