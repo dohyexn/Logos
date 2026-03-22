@@ -8,10 +8,11 @@ import { NAV_ITEMS } from "@/constants/mock";
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // 1. 초기 테마 설정 및 시스템 설정 감지
+  // 1. 초기 테마 설정
   useEffect(() => {
-    // 로컬 스토리지 확인
+    setMounted(true);
     const savedTheme = localStorage.getItem("theme");
     const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
@@ -25,7 +26,8 @@ export default function Navbar() {
   }, []);
 
   // 2. 테마 토글 함수
-  const toggleTheme = () => {
+  const toggleTheme = (e: React.MouseEvent) => {
+    e.preventDefault();
     const newTheme = !isDark;
     setIsDark(newTheme);
 
@@ -39,6 +41,16 @@ export default function Navbar() {
       localStorage.setItem("theme", "light");
     }
   };
+
+  // 마운트 전에는 빈 공간을 렌더링하여 하이드레이션 오류 방지
+  if (!mounted) return (
+    <nav className="sticky top-0 z-50 w-full border-b border-muted bg-background/80 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+        <div className="text-2xl font-bold tracking-tighter text-primary">LOGOS</div>
+        <div className="h-10 w-10" />
+      </div>
+    </nav>
+  );
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-muted bg-background/80 backdrop-blur-md">
@@ -68,7 +80,7 @@ export default function Navbar() {
           {/* Theme Switcher */}
           <button
             onClick={toggleTheme}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xl transition-transform active:scale-90 hover:brightness-110"
+            className="relative flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xl transition-all active:scale-90 hover:brightness-110"
             aria-label="Toggle Theme"
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -78,6 +90,7 @@ export default function Navbar() {
                 animate={{ rotate: 0, opacity: 1, scale: 1 }}
                 exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="pointer-events-none block"
               >
                 {isDark ? "🌙" : "☀️"}
               </motion.span>

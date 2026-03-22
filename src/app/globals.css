@@ -22,9 +22,11 @@
   --primary: #00ADB5;
   --muted: #F3F4F6;
   --muted-foreground: #6B7280;
+  
+  color-scheme: light;
 }
 
-/* 수동 테마 전환을 위한 .dark 클래스 지원 */
+/* 다크모드 강제 클래스 */
 :root.dark {
   /* The Agora (Dark Mode) */
   --background: #121212;
@@ -34,9 +36,11 @@
   --primary: #00ADB5;
   --muted: #2D2D2D;
   --muted-foreground: #9CA3AF;
+  
+  color-scheme: dark;
 }
 
-/* 시스템 설정에 따른 자동 테마 (클래스가 없을 때만 적용되도록 하고 싶다면 선택적 사용) */
+/* 시스템 설정 (클래스가 없을 때만 적용) */
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
     --background: #121212;
@@ -46,6 +50,8 @@
     --primary: #00ADB5;
     --muted: #2D2D2D;
     --muted-foreground: #9CA3AF;
+    
+    color-scheme: dark;
   }
 }
 
@@ -57,5 +63,5 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans);
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
