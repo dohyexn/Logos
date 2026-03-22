@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { NAV_ITEMS } from "@/constants/mock";
 
@@ -9,16 +8,30 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDark, setIsDark] = useState(false);
 
-  // 버튼 클릭 시 document의 클래스만 토글
-  const toggleTheme = () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
-    
-    if (newTheme) {
+  // 1. 테마 상태에 따라 document 클래스를 확실히 동기화
+  useEffect(() => {
+    // 로컬 스토리지에 저장된 값이 있으면 불러오기
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setIsDark(true);
       document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  // 2. isDark 상태가 변할 때마다 DOM 업데이트
+  useEffect(() => {
+    console.log("현재 테마 상태:", isDark ? "다크" : "라이트");
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
+  }, [isDark]);
+
+  const handleToggle = () => {
+    setIsDark((prev) => !prev);
   };
 
   return (
@@ -42,17 +55,20 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
+          {/* 다크모드 버튼 - 디버깅 로그를 통해 작동 여부 확인 */}
           <button
-            onClick={toggleTheme}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xl transition-all active:scale-90"
-            aria-label="Toggle Theme"
+            type="button"
+            onClick={handleToggle}
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-muted text-xl transition-all active:scale-90 hover:brightness-110"
+            aria-label="테마 전환"
           >
             {isDark ? "🌙" : "☀️"}
           </button>
           
           <button
+            type="button"
             onClick={() => setIsLoggedIn(!isLoggedIn)}
-            className="group h-10 min-w-[100px] rounded-full bg-primary px-6 text-sm font-semibold text-white transition-all active:scale-95"
+            className="group flex h-10 min-w-[100px] cursor-pointer items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-white transition-all active:scale-95"
           >
             {isLoggedIn ? "마이페이지" : "로그인"}
           </button>

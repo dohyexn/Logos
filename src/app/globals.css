@@ -10,8 +10,8 @@
   --color-muted-foreground: var(--muted-foreground);
 }
 
+/* 변수 정의를 명확하게 분리 */
 :root {
-  /* 라이트 모드 기본 */
   --background: #F9FAFB;
   --foreground: #111827;
   --card: #FFFFFF;
@@ -21,18 +21,18 @@
   --muted-foreground: #6B7280;
 }
 
-.dark {
-  /* 다크 모드 시 배경만 블랙으로 */
-  --background: #000000;
-  --foreground: #F3F4F6;
-  --card: #121212;
-  --card-foreground: #F3F4F6;
-  --muted: #1E1E1E;
-  --muted-foreground: #9CA3AF;
+/* 다크모드 시 배경을 완전한 블랙으로 강제 적용 */
+:root.dark, .dark {
+  --background: #000000 !important;
+  --foreground: #F3F4F6 !important;
+  --card: #121212 !important;
+  --card-foreground: #F3F4F6 !important;
+  --muted: #1E1E1E !important;
+  --muted-foreground: #9CA3AF !important;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
