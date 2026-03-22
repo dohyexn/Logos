@@ -8,9 +8,8 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDark, setIsDark] = useState(false);
 
-  // 1. 테마 상태에 따라 document 클래스를 확실히 동기화
+  // 1. 초기 테마 설정
   useEffect(() => {
-    // 로컬 스토리지에 저장된 값이 있으면 불러오기
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       setIsDark(true);
@@ -18,9 +17,8 @@ export default function Navbar() {
     }
   }, []);
 
-  // 2. isDark 상태가 변할 때마다 DOM 업데이트
+  // 2. 테마 변경 로직 (작동 확인을 위해 alert 추가)
   useEffect(() => {
-    console.log("현재 테마 상태:", isDark ? "다크" : "라이트");
     if (isDark) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -31,6 +29,8 @@ export default function Navbar() {
   }, [isDark]);
 
   const handleToggle = () => {
+    console.log("버튼이 클릭되었습니다!");
+    // alert("테마를 전환합니다!"); // 이 부분을 풀면 클릭 시 팝업이 뜹니다.
     setIsDark((prev) => !prev);
   };
 
@@ -55,12 +55,11 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          {/* 다크모드 버튼 - 디버깅 로그를 통해 작동 여부 확인 */}
           <button
             type="button"
             onClick={handleToggle}
             className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-muted text-xl transition-all active:scale-90 hover:brightness-110"
-            aria-label="테마 전환"
+            style={{ zIndex: 100 }} // 다른 요소에 가려지지 않도록 보장
           >
             {isDark ? "🌙" : "☀️"}
           </button>

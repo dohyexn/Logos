@@ -59,6 +59,10 @@ export default function Home() {
       {/* Write FAB & Modal */}
       <PostFAB />
 
+      <div className="fixed top-20 left-4 z-[100] bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">
+        시스템 작동 중 (V2)
+      </div>
+
       {/* Footer */}
       <footer className="border-t border-muted bg-card py-12 text-center text-sm text-muted-foreground">
         <p>© 2024 LOGOS. All rights reserved.</p>
