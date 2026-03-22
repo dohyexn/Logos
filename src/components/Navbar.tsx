@@ -42,16 +42,6 @@ export default function Navbar() {
     }
   };
 
-  // 마운트 전에는 빈 공간을 렌더링하여 하이드레이션 오류 방지
-  if (!mounted) return (
-    <nav className="sticky top-0 z-50 w-full border-b border-muted bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <div className="text-2xl font-bold tracking-tighter text-primary">LOGOS</div>
-        <div className="h-10 w-10" />
-      </div>
-    </nav>
-  );
-
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-muted bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
@@ -83,18 +73,21 @@ export default function Navbar() {
             className="relative flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xl transition-all active:scale-90 hover:brightness-110"
             aria-label="Toggle Theme"
           >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={isDark ? "dark" : "light"}
-                initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
-                animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="pointer-events-none block"
-              >
-                {isDark ? "🌙" : "☀️"}
-              </motion.span>
-            </AnimatePresence>
+            {/* mounted 전에는 투명하게 처리하여 깜빡임 방지 */}
+            <div className={mounted ? "opacity-100" : "opacity-0"}>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={isDark ? "dark" : "light"}
+                  initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                  exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  className="pointer-events-none block"
+                >
+                  {isDark ? "🌙" : "☀️"}
+                </motion.span>
+              </AnimatePresence>
+            </div>
           </button>
           
           {/* Login Button */}
@@ -102,18 +95,23 @@ export default function Navbar() {
             onClick={() => setIsLoggedIn(!isLoggedIn)}
             className="group relative h-10 min-w-[100px] overflow-hidden rounded-full bg-primary px-6 text-sm font-semibold text-white transition-all active:scale-95 hover:brightness-110"
           >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={isLoggedIn ? "mypage" : "login"}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="block"
-              >
-                {isLoggedIn ? "마이페이지" : "로그인"}
-              </motion.span>
-            </AnimatePresence>
+            {/* mounted 전에는 '로그인' 텍스트만 보여줌 */}
+            {!mounted ? (
+              <span>로그인</span>
+            ) : (
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={isLoggedIn ? "mypage" : "login"}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="block"
+                >
+                  {isLoggedIn ? "마이페이지" : "로그인"}
+                </motion.span>
+              </AnimatePresence>
+            )}
           </button>
         </div>
       </div>
