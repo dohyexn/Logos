@@ -1,0 +1,2 @@
+description = "Saves the current project to GitHub (add, commit, push)."
+prompt = "Save all my changes to the repository. If I provide a message, use it as the commit message; otherwise, use a timestamped auto-save message. Use the `./save` script to perform the action."

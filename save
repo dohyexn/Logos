@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Get the current timestamp
+timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+
+# Check for a custom message argument
+message="${1:-Auto-save: $timestamp}"
+
+echo "🚀 Saving project to https://github.com/dohyexn/Logos.git..."
+
+# Add all changes
+git add .
+
+# Commit with the message
+if git commit -m "$message"; then
+    # Push to origin main
+    echo "📤 Pushing to GitHub..."
+    git push origin main
+    echo "✅ Successfully saved!"
+else
+    echo "ℹ️ No changes to commit."
+fi
