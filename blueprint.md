@@ -21,8 +21,9 @@ Logos is a project focused on minimalism and readability, aiming for an intellec
 
 #### ⚫ Dark Mode (The Agora)
 - **Background:** Midnight Charcoal (#121212)
-- **Text:** Soft Light Gray (#E5E7EB)
-- **Card/Element Background:** Darker Charcoal (#1F2937)
+- **Text:** Soft White (#F3F4F6)
+- **Subtext:** Medium Gray (#9CA3AF)
+- **Card/Element Background (Surface):** Dark Charcoal (#1E1E1E)
 
 ## Current State
 - Next.js project with App Router.

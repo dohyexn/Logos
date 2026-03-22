@@ -28,11 +28,11 @@
   :root {
     /* The Agora (Dark Mode) */
     --background: #121212;
-    --foreground: #E5E7EB;
-    --card: #1F2937;
-    --card-foreground: #E5E7EB;
+    --foreground: #F3F4F6;
+    --card: #1E1E1E;
+    --card-foreground: #F3F4F6;
     --primary: #00ADB5;
-    --muted: #374151;
+    --muted: #2D2D2D;
     --muted-foreground: #9CA3AF;
   }
 }
